@@ -28,7 +28,7 @@ public class TestController {
 		List<Results> results = new ArrayList<Results>();
 		Integer annualTax = calculateTaxAmount() * 12;
 		
-		results.add(new Results(calculateTaxAmount(),annualTax));
+		results.add(new Results(calculateTaxAmount(),annualTax,null,null,null));
 		return results;
 		
 	}
