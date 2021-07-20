@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/wena")
+@RequestMapping("/taxcalculation")
 public class TestController {
 	
 	private TaxTableRepository taxRepository;

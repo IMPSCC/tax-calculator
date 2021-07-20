@@ -10,6 +10,7 @@ import javax.persistence.*;
  * Entity implementation class for Entity: TaxRebate
  *
  */
+@SuppressWarnings("serial")
 @Entity
 public class TaxRebate implements Serializable {
 	

@@ -10,8 +10,10 @@ export class TaxResultsComponent implements OnInit {
 
   constructor() { }
 
-  taxResults: Results = new Results("","","","","",);
+  taxResults: Results = new Results("","","","","");
   ngOnInit(): void {
+
+    console.log("redirected to the Results component...!!!")
   }
 
 }

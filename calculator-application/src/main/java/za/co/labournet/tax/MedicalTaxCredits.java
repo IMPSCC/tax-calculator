@@ -22,13 +22,14 @@ public class MedicalTaxCredits {
 	public MedicalTaxCredits(int taxCreditAmount,int dependantKey,Date year) {
 		this.taxCreditAmount = taxCreditAmount;
 		this.dependantKey = dependantKey;
+		this.year = year;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return Id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		Id = id;
 	}
 

@@ -26,14 +26,18 @@ export class Results{
 })
 export class HttpClientService {
 
-  constructor(private httpClient:HttpClient){
-
-  }
+  constructor(private httpClient:HttpClient){}
 
   public relayTaxParameters(taxInput : TaxInput)
   {
     console.log("Sumitting tax paremeters for calculation in the HttpClient......!!!");
-    return this.httpClient.post<Results>("http://localhost:8080/employees", taxInput);
+    return this.httpClient.post<Results>("http://localhost:8080/taxcalculation", taxInput);
+  }
+
+  public getTaxResults(taxInput : TaxInput)
+  {
+    console.log("Sumitting tax paremeters for calculation in the HttpClient......!!!");
+    return this.httpClient.get<Results>("http://localhost:8080/taxcalculation");
   }
 
 }
