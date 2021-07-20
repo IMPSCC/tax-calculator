@@ -4,20 +4,20 @@ public class Results {
 
 	private Integer monthlyTax;
 	private Integer annulTax;
-	private Integer taxCredit;
-	private Integer salaryAfterTax;
-	private Integer salaryAfterTaxCredits;
+	private Integer monthlyTaxCredit;
+	private Integer monthlySalaryAfterTax;
+	private Integer monthlySalaryAfterTaxCredits;
 	
 	public Results() {
 		
 	}
 	
-	public Results(Integer monthlyTax,Integer annulaTax,Integer taxCredit,Integer salaryAfterTax,Integer salaryAfterTaxCredits) {
+	public Results(Integer monthlyTax,Integer annulaTax,Integer monthlyTaxCredit,Integer monthlySalaryAfterTax,Integer monthlySalaryAfterTaxCredits) {
 		this.monthlyTax = monthlyTax;
 		this.annulTax = annulaTax;
-		this.taxCredit = taxCredit;
-		this.salaryAfterTax = salaryAfterTax;
-		this.salaryAfterTaxCredits  = salaryAfterTax;
+		this.monthlyTaxCredit = monthlyTaxCredit;
+		this.monthlySalaryAfterTax = monthlySalaryAfterTax;
+		this.monthlySalaryAfterTaxCredits  = monthlySalaryAfterTaxCredits;
 	}
 
 	public Integer getMonthlyTax() {
@@ -36,30 +36,30 @@ public class Results {
 		this.annulTax = annulTax;
 	}
 
-	public Integer getTaxCredit() {
-		return taxCredit;
+	public Integer getMonthlyTaxCredit() {
+		return monthlyTaxCredit;
 	}
 
-	public void setTaxCredit(Integer taxCredit) {
-		this.taxCredit = taxCredit;
+	public void setMonthlyTaxCredit(Integer monthlyTaxCredit) {
+		this.monthlyTaxCredit = monthlyTaxCredit;
 	}
 
-	public Integer getSalaryAfterTax() {
-		return salaryAfterTax;
+	public Integer getMonthlySalaryAfterTax() {
+		return monthlySalaryAfterTax;
 	}
 
-	public void setSalaryAfterTax(Integer salaryAfterTax) {
-		this.salaryAfterTax = salaryAfterTax;
+	public void setMonthlySalaryAfterTax(Integer monthlySalaryAfterTax) {
+		this.monthlySalaryAfterTax = monthlySalaryAfterTax;
 	}
 
-	public Integer getSalaryAfterTaxCredits() {
-		return salaryAfterTaxCredits;
+	public Integer getMonthlySalaryAfterTaxCredits() {
+		return monthlySalaryAfterTaxCredits;
 	}
 
-	public void setSalaryAfterTaxCredits(Integer salaryAfterTaxCredits) {
-		this.salaryAfterTaxCredits = salaryAfterTaxCredits;
+	public void setMonthlySalaryAfterTaxCredits(Integer monthlySalaryAfterTaxCredits) {
+		this.monthlySalaryAfterTaxCredits = monthlySalaryAfterTaxCredits;
 	}
 	
 	
-
+	
 }

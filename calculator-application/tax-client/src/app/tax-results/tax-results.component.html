@@ -1,0 +1,26 @@
+<p>tax-results works!</p>
+<div class="col-md-6">
+  <table class="table table-striped">
+  <thead>
+  <tr>
+    <th>monthly tax</th>
+	<th>annul tax</th>
+	<th>monthly tax credit</th>
+	<th>monthly salary after tax</th>
+	<th>monthlySalary after tax credits</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngIf="taxResults">
+          <td>{{taxResults.monthlyTax}}</td>
+		  <td>{{taxResults.annulTax}}</td>
+		  <td>{{taxResults.taxCredit}}</td>
+		  <td>{{taxResults.monthlSalaryAfterTax}}</td>
+		  <td>{{taxResults.monthlySalaryAfterTaxCredits}}</td>
+          
+          </tr>
+  </tbody>
+    </table>
+
+  </div>
+

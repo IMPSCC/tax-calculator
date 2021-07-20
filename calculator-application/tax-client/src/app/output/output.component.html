@@ -1,1 +1,26 @@
-<h2>Tax Output</h2>
+<div class="col-md-6">
+<h2 class="text-center">Tax Calculator</h2>
+<form>
+	<div class="form-group">
+    	<label for="name">Tax Year:</label>
+    	<input type="name" [(ngModel)]="tax.year" placeholder="Year" name="year" class="form-control" id="year">
+	  </div>
+	  <div class="form-group">
+		<label for="name">Age:</label>
+		<br/>
+    	<input type="name" [(ngModel)]="tax.age" placeholder="Age" name="year" class="form-control" id="year">
+	  </div>
+	  <div class="form-group">
+    	<label for="name">Monthly gross salary:</label>
+    	<input type="name" [(ngModel)]="tax.totalTaxableIncome" placeholder="monthly gross salary" name="year" class="form-control" id="year">
+	  </div>
+	  <div class="form-group">
+    	<label for="name">Medical aid:</label>
+    	<input type="name" [(ngModel)]="tax.medicalAidMembers" placeholder="dependents" name="year" class="form-control" id="year">
+	  </div>
+	  <br/>
+	  <br/>
+	  <button class="btn btn-success" (click)="submitTaxParameters()">Calculate Tax</button>
+</form>
+</div>
+

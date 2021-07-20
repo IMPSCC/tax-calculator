@@ -3,20 +3,23 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {HttpClient} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import { OutputComponent } from './output/output.component';
 import { CalculatorService } from './service/calculator.service';
-
+import { FormsModule } from '@angular/forms';
+import { TaxResultsComponent } from './tax-results/tax-results.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    OutputComponent
+    OutputComponent,
+    TaxResultsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClient
+    HttpClientModule,
+    FormsModule
   ],
   providers: [CalculatorService],
   bootstrap: [AppComponent]

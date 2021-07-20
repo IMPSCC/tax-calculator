@@ -7,58 +7,57 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@RequestMapping("/wena")
 public class TestController {
 	
 	private TaxTableRepository taxRepository;
 	private RebateRepository rebateRepository;
+	private MedicalAidCreditsRepository medicalAidCreditRepository;
 	
-	public TestController(TaxTableRepository taxRepository, RebateRepository rebateRepository) {
+	public TestController(TaxTableRepository taxRepository, RebateRepository rebateRepository,MedicalAidCreditsRepository medicalAidCreditRepository) {
 		this.taxRepository = taxRepository;
 		this.rebateRepository = rebateRepository;
+		this.medicalAidCreditRepository = medicalAidCreditRepository;
 	}
 	
-	@RequestMapping("/wena")
-	public Collection<Results> getTaxAmount() {
+	@PostMapping
+	private Results calculateTaxAmount(@RequestBody TaxInput taxInput) {
 		
-		List<Results> results = new ArrayList<Results>();
-		Integer annualTax = calculateTaxAmount() * 12;
+		System.out.println("Inside the SpringBoot via Post !!!!!!!!!!!");
 		
-		results.add(new Results(calculateTaxAmount(),annualTax,null,null,null));
-		return results;
+		Integer monthlyTaxAmount = 0; // TODO: CREATE CONSTANT CLASS.
+		Integer monthlyTaxableAmount = taxInput.getTotalTaxableIncome();
+		Integer taxYear = Integer.valueOf(taxInput.getTaxYear());
+		Integer annualTaxableAmount = monthlyTaxableAmount * 12;// TODO: CREATE CONSTANT CLASS.
 		
-	}
-
-	private Integer calculateTaxAmount() {
+		TaxTable taxBracket = getTaxBracket(taxYear, monthlyTaxableAmount);
+		Integer rebateAmount = getRebate(taxYear, taxInput.getAge());
 		
-		Integer taxAmount = 0;
-		HashMap<String,Integer> input = getInput();
-		TaxTable taxBracket = getTaxBracket(input.get("taxyear"), input.get("annualsalary"));
-		Integer rebateAmount = getRebate(input.get("taxyear"), input.get("age"));
-		
-		if(taxBracket.getTaxableIncomeMinimumAmountRange() == 0) {
+		if(taxBracket.getTaxableIncomeMinimumAmountRange() == 0) {// TODO: CREATE CONSTANT CLASS.
 			
-			Integer taxableAmount = input.get("annualsalary");
-			BigDecimal portionabletaxAmount =  (new BigDecimal (taxableAmount).multiply(taxBracket.getTaxableIncomePercent())); 
+			BigDecimal portionabletaxAmount =  (new BigDecimal (monthlyTaxableAmount).multiply(taxBracket.getTaxableIncomePercent())); 
 			BigDecimal totalTaxExclrebate = portionabletaxAmount.add(new BigDecimal(taxBracket.getDefaultTaxAmount()));
 			BigDecimal totalTaxInclRebate = totalTaxExclrebate.subtract(new BigDecimal(rebateAmount));
-			taxAmount  = (totalTaxInclRebate.divide(new BigDecimal(12), BigDecimal.ROUND_HALF_DOWN)).intValue();
+			monthlyTaxAmount  = (totalTaxInclRebate.divide(new BigDecimal(12), BigDecimal.ROUND_HALF_DOWN)).intValue();
 		}
-		else if(taxBracket.getTaxableIncomeMaximumAmountRange() == 0)
+		else if(taxBracket.getTaxableIncomeMaximumAmountRange() == 0)// TODO: CREATE CONSTANT CLASS.
 		{
-			Integer taxableAmount = input.get("annualsalary") - taxBracket.getTaxableIncomeMinimumAmountRange();
+			Integer taxableAmount = annualTaxableAmount - taxBracket.getTaxableIncomeMinimumAmountRange();
 			BigDecimal portionabletaxAmount =  (new BigDecimal (taxableAmount).multiply(taxBracket.getTaxableIncomePercent())); 
 			BigDecimal totalTaxExclrebate = portionabletaxAmount.add(new BigDecimal(taxBracket.getDefaultTaxAmount()));
 			BigDecimal totalTaxInclRebate = totalTaxExclrebate.subtract(new BigDecimal(rebateAmount));
-			taxAmount  = (totalTaxInclRebate.divide(new BigDecimal(12), BigDecimal.ROUND_HALF_DOWN)).intValue();
+			monthlyTaxAmount  = (totalTaxInclRebate.divide(new BigDecimal(12), BigDecimal.ROUND_HALF_DOWN)).intValue();
 		}
 		else
 		{
-			Integer taxableAmount = input.get("annualsalary") - taxBracket.getTaxableIncomeMinimumAmountRange();
+			Integer taxableAmount = annualTaxableAmount - taxBracket.getTaxableIncomeMinimumAmountRange();
 			System.out.println("TaxableIncomeMinimumAmountRange returned :======> "+taxBracket.getTaxableIncomeMinimumAmountRange());
 			System.out.println("taxableAmount returned :======> "+taxableAmount);
 			System.out.println("TaxableIncomePercent returned :======> "+taxBracket.getTaxableIncomePercent());
@@ -67,13 +66,60 @@ public class TestController {
 			BigDecimal totalTaxExclrebate = portionabletaxAmount.add(new BigDecimal(taxBracket.getDefaultTaxAmount()));
 			System.out.println("DefaultTaxAmount returned :======> "+taxBracket.getDefaultTaxAmount());
 			BigDecimal totalTaxInclRebate = totalTaxExclrebate.subtract(new BigDecimal(rebateAmount));
-			taxAmount  = (totalTaxInclRebate.divide(new BigDecimal(12), BigDecimal.ROUND_HALF_DOWN)).intValue();
+			monthlyTaxAmount  = (totalTaxInclRebate.divide(new BigDecimal(12), BigDecimal.ROUND_HALF_DOWN)).intValue();
 		}
-		return taxAmount;
+		
+		return getResults(monthlyTaxAmount,determineMedicalAidTaxCredits(taxInput),taxInput.getTotalTaxableIncome());
+	}
+	
+	private Results getResults(Integer monthlyTaxAmount,Integer taxCredit,Integer monthlySalary) {
+		
+		int annualTax = monthlyTaxAmount * 12;// TODO: CREATE CONSTANT CLASS.
+		int salaryAfterTax = monthlySalary - monthlyTaxAmount;
+		int salaryAfterTaxCredits = salaryAfterTax + taxCredit;
+		
+		return new Results(monthlyTaxAmount,annualTax,taxCredit,salaryAfterTax,salaryAfterTaxCredits);
+	}
+	
+	
+	private int determineMedicalAidTaxCredits(TaxInput taxInput) {
+		
+		int medicalAidMembers = taxInput.getMedicalAidMembers();
+		int totalMedicalAidCredit = 0; // TODO: CREATE CONSTANT CLASS.
+		
+		while(medicalAidMembers > 0) {// TODO: CREATE CONSTANT CLASS.
+			for(MedicalTaxCredits item : medicalAidCreditRepository.findAll()) {
+				
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(item.getYear());
+				
+				if(calendar.get(Calendar.YEAR) == Integer.valueOf(taxInput.taxYear)) 
+				{
+					if(MedicalAidMemberKey.MAIN.getMemberKey() == item.dependantKey) {
+						totalMedicalAidCredit = totalMedicalAidCredit + item.taxCreditAmount;
+						medicalAidMembers--;
+						break;
+					}
+					if(MedicalAidMemberKey.ANY.getMemberKey() == item.dependantKey) {
+						totalMedicalAidCredit = totalMedicalAidCredit + item.taxCreditAmount;
+						medicalAidMembers--;
+						break;
+					}
+					if(MedicalAidMemberKey.SECONDARY.getMemberKey() == item.dependantKey) {
+						totalMedicalAidCredit = totalMedicalAidCredit + item.taxCreditAmount;
+						medicalAidMembers--;
+						break;
+					}
+				}
+			}
+			medicalAidMembers--;
+		}
+		return totalMedicalAidCredit;	
 	}
 	
 	private TaxTable getTaxBracket(Integer year, Integer salary) {
 		
+		salary = salary *12;// TODO: CREATE CONSTANT CLASS.            
 		for(TaxTable item : taxRepository.findAll()) {
 			
 			Calendar calendar = Calendar.getInstance();
@@ -102,13 +148,5 @@ public class TestController {
 		
 		return rebateAmount;
 	}
-	
-	private HashMap<String,Integer> getInput() {
-		HashMap<String,Integer> map = new HashMap<String,Integer>();
-		map.put("annualsalary", 500000);
-		map.put("age", 50);
-		map.put("taxyear", 2021);
-		map.put("dependents",2);
-		return map;
-	}
+
 }
