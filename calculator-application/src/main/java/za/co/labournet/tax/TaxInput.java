@@ -2,10 +2,10 @@ package za.co.labournet.tax;
 
 public class TaxInput {
 	
-	String taxYear;
-	Integer age;
-	Integer totalTaxableIncome;
-	Integer medicalAidMembers;
+	private String taxYear;
+	private Integer age;
+	private Integer totalTaxableIncome;
+	private Integer medicalAidMembers;
 	
 	public TaxInput (String taxYear,Integer age,Integer totalTaxableIncome,Integer medicalAidMebers) {
 		this.taxYear = taxYear;

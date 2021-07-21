@@ -8,12 +8,14 @@ import { OutputComponent } from './output/output.component';
 import { CalculatorService } from './service/calculator.service';
 import { FormsModule } from '@angular/forms';
 import { TaxResultsComponent } from './tax-results/tax-results.component';
+import { TaxTableViewComponent } from './tax-table-view/tax-table-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OutputComponent,
-    TaxResultsComponent
+    TaxResultsComponent,
+    TaxTableViewComponent
   ],
   imports: [
     BrowserModule,

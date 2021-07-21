@@ -7,12 +7,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/taxcalculation")
 public class TestController {
@@ -28,9 +30,12 @@ public class TestController {
 	}
 	
 	@PostMapping
-	private Results calculateTaxAmount(@RequestBody TaxInput taxInput) {
+	public Results calculateTaxAmount(@RequestBody TaxInput taxInput) {
 		
-		System.out.println("Inside the SpringBoot via Post !!!!!!!!!!!");
+		System.out.println("Inside the SpringBoot via Post !!!!!!!!!!!   : "+taxInput.getTaxYear());
+		System.out.println("Inside the SpringBoot via Post !!!!!!!!!!!   @ : "+taxInput.getAge());
+		System.out.println("Inside the SpringBoot via Post !!!!!!!!!!!   : "+taxInput.getMedicalAidMembers());
+		System.out.println("Inside the SpringBoot via Post !!!!!!!!!!!   @ : "+taxInput.getTotalTaxableIncome());
 		
 		Integer monthlyTaxAmount = 0; // TODO: CREATE CONSTANT CLASS.
 		Integer monthlyTaxableAmount = taxInput.getTotalTaxableIncome();
@@ -69,7 +74,12 @@ public class TestController {
 			monthlyTaxAmount  = (totalTaxInclRebate.divide(new BigDecimal(12), BigDecimal.ROUND_HALF_DOWN)).intValue();
 		}
 		
-		return getResults(monthlyTaxAmount,determineMedicalAidTaxCredits(taxInput),taxInput.getTotalTaxableIncome());
+		Results r = getResults(monthlyTaxAmount,determineMedicalAidTaxCredits(taxInput),taxInput.getTotalTaxableIncome());
+		System.out.println("Inside the  "+ r.getAnnulTax());
+		System.out.println("Inside the : "+r.getMonthlySalaryAfterTax());
+		System.out.println("Inside the Spring "+r.getMonthlyTax());
+		System.out.println("Inside the SpringBoot via Post !!!!!!!!!!!   @ : "+r.getMonthlySalaryAfterTaxCredits());
+		return r;
 	}
 	
 	private Results getResults(Integer monthlyTaxAmount,Integer taxCredit,Integer monthlySalary) {
@@ -93,7 +103,7 @@ public class TestController {
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTime(item.getYear());
 				
-				if(calendar.get(Calendar.YEAR) == Integer.valueOf(taxInput.taxYear)) 
+				if(calendar.get(Calendar.YEAR) == Integer.valueOf(taxInput.getTaxYear())) 
 				{
 					if(MedicalAidMemberKey.MAIN.getMemberKey() == item.dependantKey) {
 						totalMedicalAidCredit = totalMedicalAidCredit + item.taxCreditAmount;

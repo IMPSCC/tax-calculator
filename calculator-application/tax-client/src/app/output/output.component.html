@@ -3,7 +3,7 @@
 <form>
 	<div class="form-group">
     	<label for="name">Tax Year:</label>
-    	<input type="name" [(ngModel)]="tax.year" placeholder="Year" name="year" class="form-control" id="year">
+    	<input type="name" [(ngModel)]="tax.taxYear" placeholder="Year" name="year" class="form-control" id="year">
 	  </div>
 	  <div class="form-group">
 		<label for="name">Age:</label>
@@ -20,7 +20,7 @@
 	  </div>
 	  <br/>
 	  <br/>
-	  <button class="btn btn-success" (click)="submitTaxParameters()">Calculate Tax</button>
+	  <button class="btn btn-success" type="button" (click)="submitTaxParameters()">Calculate Tax</button>
 </form>
 </div>
 
