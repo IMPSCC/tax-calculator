@@ -15,7 +15,7 @@ export class Results{
   constructor(
     public monthlyTax:string,
     public annulTax:string,
-    public taxCredit:string,
+    public monthlyTaxCredit:string,
     public monthlSalaryAfterTax:string,
     public monthlySalaryAfterTaxCredits:string,
   ) {}
@@ -24,10 +24,8 @@ export class Results{
 export class TaxTableResults{
   constructor(
     public taxYear:string,
-    public taxableIncomePercent:string,
-    public taxableIncomeMinimumAmountRange:string,
-    public taxableIncomeMaximumAmountRange:string,
-    public defaultTaxAmount:string,
+    public taxableIncomeRange:string,
+    public rateOfTaxDescription:string,
   ) {}
 }
 
@@ -38,7 +36,14 @@ export class TaxTableResults{
 
 export class HttpClientService {
 
+  
+
 constructor(private httpClient:HttpClient){}
+
+  public getTaxTableByYear(taxYear :string)
+  {
+    return this.httpClient.post<TaxTableResults[]>("http://localhost:8080/taxtable", taxYear);
+  }
 
   public relayTaxParameters(taxInput : TaxInput)
   {
@@ -49,8 +54,8 @@ constructor(private httpClient:HttpClient){}
   
   public getTaxTables()
   {
-   console.log("test call"); 
-	 return this.httpClient.get<Map<String,TaxTableResults[]>>('http://localhost:8080/taxtables');
+   console.log("tax table view HTTP execution ...!!!"); 
+	 return this.httpClient.get<Map<string,TaxTableResults[]>>("http://localhost:8080/taxtables");
   }
   
   public getTaxResults(taxInput : TaxInput)

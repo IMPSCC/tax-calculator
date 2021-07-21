@@ -1,1 +1,22 @@
 <p>tax-table-view works!</p>
+<div class="col-md-6" >
+  <table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Range</th>
+	<th>Description</th>
+	</tr>
+  </thead>
+  <tbody>
+	  <div  *ngFor="let item of taxTableByYearArray">
+      <tr>
+		  <td>{{item.taxableIncomeRange}}</td>
+		  <br/><br/><br/><br/><br/><br/>
+		 <td>{{item.rateOfTaxDescription}}</td>
+		  </tr>
+		  </div>
+  </tbody>
+    </table>
+
+  </div>
+

@@ -30,12 +30,20 @@ export class OutputComponent implements OnInit {
 
     console.log('Sumitting tax paremeters for calculation witout !!!');
     
-    this.httpReference.relayTaxParameters(this.tax).subscribe(response =>{this.results = response;});
-    console.log("results returned after the call"+this.results.annulTax);
-    console.log("results returned after the call"+this.results.monthlySalaryAfterTaxCredits);
-    console.log("results returned after the call"+this.results.taxCredit);
-    this.router.navigate(['/tax-results']);
-    
-  };
+    this.httpReference.relayTaxParameters(this.tax).subscribe(
+      (response : Results ) => {
+        console.log("Assigning the results from the response");
+        this.results = response;
+         console.log("@@@@@@The response of tax calculation is not annulTax : "+this.results.annulTax);
+      console.log("@@@@@@The response of tax calculation is not null monthlSalaryAfterTax : "+this.results.monthlSalaryAfterTax);
+      console.log("@@@@@@The response of tax calculation is not null monthlySalaryAfterTaxCredits : "+this.results.monthlySalaryAfterTaxCredits);
+      console.log("@@@@@@The response of tax calculation is not null monthlyTaxCredit : "+this.results.monthlyTaxCredit);
+      console.log("@@@@@@The response of tax calculation is not null monthlyTax : "+this.results.monthlyTax);
+        this.router.navigate(['/tax-results']);
+        
+      }
+    );
+  
+  }
 
 }

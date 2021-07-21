@@ -32,11 +32,6 @@ public class TestController {
 	@PostMapping
 	public Results calculateTaxAmount(@RequestBody TaxInput taxInput) {
 		
-		System.out.println("Inside the SpringBoot via Post !!!!!!!!!!!   : "+taxInput.getTaxYear());
-		System.out.println("Inside the SpringBoot via Post !!!!!!!!!!!   @ : "+taxInput.getAge());
-		System.out.println("Inside the SpringBoot via Post !!!!!!!!!!!   : "+taxInput.getMedicalAidMembers());
-		System.out.println("Inside the SpringBoot via Post !!!!!!!!!!!   @ : "+taxInput.getTotalTaxableIncome());
-		
 		Integer monthlyTaxAmount = 0; // TODO: CREATE CONSTANT CLASS.
 		Integer monthlyTaxableAmount = taxInput.getTotalTaxableIncome();
 		Integer taxYear = Integer.valueOf(taxInput.getTaxYear());
@@ -63,23 +58,13 @@ public class TestController {
 		else
 		{
 			Integer taxableAmount = annualTaxableAmount - taxBracket.getTaxableIncomeMinimumAmountRange();
-			System.out.println("TaxableIncomeMinimumAmountRange returned :======> "+taxBracket.getTaxableIncomeMinimumAmountRange());
-			System.out.println("taxableAmount returned :======> "+taxableAmount);
-			System.out.println("TaxableIncomePercent returned :======> "+taxBracket.getTaxableIncomePercent());
 			BigDecimal portionabletaxAmount =  (new BigDecimal (taxableAmount).multiply(taxBracket.getTaxableIncomePercent())); 
-			System.out.println("portionabletaxAmount returned :======> "+portionabletaxAmount);
 			BigDecimal totalTaxExclrebate = portionabletaxAmount.add(new BigDecimal(taxBracket.getDefaultTaxAmount()));
-			System.out.println("DefaultTaxAmount returned :======> "+taxBracket.getDefaultTaxAmount());
 			BigDecimal totalTaxInclRebate = totalTaxExclrebate.subtract(new BigDecimal(rebateAmount));
 			monthlyTaxAmount  = (totalTaxInclRebate.divide(new BigDecimal(12), BigDecimal.ROUND_HALF_DOWN)).intValue();
 		}
 		
-		Results r = getResults(monthlyTaxAmount,determineMedicalAidTaxCredits(taxInput),taxInput.getTotalTaxableIncome());
-		System.out.println("Inside the  "+ r.getAnnulTax());
-		System.out.println("Inside the : "+r.getMonthlySalaryAfterTax());
-		System.out.println("Inside the Spring "+r.getMonthlyTax());
-		System.out.println("Inside the SpringBoot via Post !!!!!!!!!!!   @ : "+r.getMonthlySalaryAfterTaxCredits());
-		return r;
+		return getResults(monthlyTaxAmount,determineMedicalAidTaxCredits(taxInput),taxInput.getTotalTaxableIncome());
 	}
 	
 	private Results getResults(Integer monthlyTaxAmount,Integer taxCredit,Integer monthlySalary) {
@@ -134,7 +119,6 @@ public class TestController {
 			
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(item.getTaxYear());
-			System.out.println(" amount min : "+item.getTaxableIncomeMinimumAmountRange()+" amount max : "+item.getTaxableIncomeMaximumAmountRange()+" year : "+calendar.get(Calendar.YEAR));
 			if((item.getTaxableIncomeMaximumAmountRange() > salary && salary > item.getTaxableIncomeMinimumAmountRange()) && calendar.get(Calendar.YEAR) == year) {
 				return item;
 			}
@@ -151,7 +135,6 @@ public class TestController {
 			calendar.setTime(item.getTaxYear());
 			
 			if((item.getMinimumAge() < age && item.getMaximumAge() > age) && calendar.get(Calendar.YEAR) == year) {
-				System.out.println("Rebate returned :======> "+item.getRebateAmount().intValue());
 				return item.getRebateAmount().intValue();
 			}
 		}

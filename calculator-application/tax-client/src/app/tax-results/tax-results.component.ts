@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Results } from '../service/http-client.service';
+import { HttpClientService, TaxInput, Results } from '../service/http-client.service';
+import { ActivatedRoute,Router } from '@angular/router';
 
 @Component({
   selector: 'app-tax-results',
@@ -8,12 +9,13 @@ import { Results } from '../service/http-client.service';
 })
 export class TaxResultsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private httpReference: HttpClientService,private router: Router,private activatedRouter: ActivatedRoute) { }
 
-  taxResults: Results = new Results("12","34","55","23","56");
+  taxResults: Results = new Results("","","","","");
+
   ngOnInit(): void {
 
-    console.log("redirected to the Results component...!!!")
+    console.log("redirected to the Results component...!!!");
   }
 
 }

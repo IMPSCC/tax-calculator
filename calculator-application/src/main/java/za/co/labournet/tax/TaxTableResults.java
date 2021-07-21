@@ -2,19 +2,19 @@ package za.co.labournet.tax;
 
 public class TaxTableResults {
 	
-	private String taxYear;
-	private String taxableIncomePercent;
-	private String taxableIncomeMinimumAmountRange;
-	private String taxableIncomeMaximumAmountRange;
-	private String defaultTaxAmount;
 	
-	public TaxTableResults(String taxYear,String taxableIncomePercent,String taxableIncomeMinimumAmountRange,String taxableIncomeMaximumAmountRange,String defaultTaxAmount) {
+	private String taxYear;
+	private String taxableIncomeRange;
+	private String rateOfTaxDescription;
+	
+	private final static String taxableIncomeString = " of taxable income ";
+	private final static String aboveString = " above ";
+	
+	public TaxTableResults(String taxYear,String taxableIncomeRange,String rateOfTaxDescription) {
 		
 		this.taxYear = taxYear;
-		this.taxableIncomePercent = taxableIncomePercent;
-		this.taxableIncomeMinimumAmountRange = taxableIncomeMinimumAmountRange;
-		this.taxableIncomeMaximumAmountRange = taxableIncomeMaximumAmountRange;
-		this.defaultTaxAmount = defaultTaxAmount;
+		this.taxableIncomeRange = taxableIncomeRange;
+		this.rateOfTaxDescription = rateOfTaxDescription;
 	}
 
 	public String getTaxYear() {
@@ -25,37 +25,28 @@ public class TaxTableResults {
 		this.taxYear = taxYear;
 	}
 
-	public String getTaxableIncomePercent() {
-		return taxableIncomePercent;
+	public String getTaxableIncomeRange() {
+		return taxableIncomeRange;
 	}
 
-	public void setTaxableIncomePercent(String taxableIncomePercent) {
-		this.taxableIncomePercent = taxableIncomePercent;
+	public void setTaxableIncomeRange(String taxableIncomeRange) {
+		this.taxableIncomeRange = taxableIncomeRange;
 	}
 
-	public String getTaxableIncomeMinimumAmountRange() {
-		return taxableIncomeMinimumAmountRange;
+	public String getRateOfTaxDescription() {
+		return rateOfTaxDescription;
 	}
 
-	public void setTaxableIncomeMinimumAmountRange(String taxableIncomeMinimumAmountRange) {
-		this.taxableIncomeMinimumAmountRange = taxableIncomeMinimumAmountRange;
+	public void setRateOfTaxDescription(String rateOfTaxDescription) {
+		this.rateOfTaxDescription = rateOfTaxDescription;
 	}
 
-	public String getTaxableIncomeMaximumAmountRange() {
-		return taxableIncomeMaximumAmountRange;
+	public static String getTaxableIncomeString() {
+		return taxableIncomeString;
 	}
 
-	public void setTaxableIncomeMaximumAmountRange(String taxableIncomeMaximumAmountRange) {
-		this.taxableIncomeMaximumAmountRange = taxableIncomeMaximumAmountRange;
+	public static String getAboveString() {
+		return aboveString;
 	}
 
-	public String getDefaultTaxAmount() {
-		return defaultTaxAmount;
-	}
-
-	public void setDefaultTaxAmount(String defaultTaxAmount) {
-		this.defaultTaxAmount = defaultTaxAmount;
-	}
-
-	
 }
