@@ -39,10 +39,17 @@ public class TaxTableController {
 			
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(item.getTaxYear());
+			StringBuffer taxableIncomeRangeDescription = null;
 			
 			StringBuffer rateOftaxDescription = null;
-			StringBuffer taxableIncomeRangeDescription = new StringBuffer(item.getTaxableIncomeMinimumAmountRange().toString()).append(" - ").append(item.getTaxableIncomeMaximumAmountRange());
 			
+			if(item.getTaxableIncomeMaximumAmountRange() == 0) {
+				taxableIncomeRangeDescription = new StringBuffer(item.getTaxableIncomeMinimumAmountRange().toString()).append(" - ").append(TaxTableResults.getAboveString());
+			}
+			else
+			{
+				taxableIncomeRangeDescription = new StringBuffer(item.getTaxableIncomeMinimumAmountRange().toString()).append(" - ").append(item.getTaxableIncomeMaximumAmountRange());
+			}
 			String percentAmount = item.getTaxableIncomePercent().toString();
 			
 			if(item.getDefaultTaxAmount() > 0) 

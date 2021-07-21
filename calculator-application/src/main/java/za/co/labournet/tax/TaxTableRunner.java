@@ -43,7 +43,7 @@ public class TaxTableRunner implements CommandLineRunner {
 		taxTableRecords.add(new TaxTable(previousYearDateObjectValue, new BigDecimal(0.36),423301, 555600, 100263));
 		taxTableRecords.add(new TaxTable(previousYearDateObjectValue, new BigDecimal(0.39),555601, 708310, 147891));
 		taxTableRecords.add(new TaxTable(previousYearDateObjectValue, new BigDecimal(0.41),708311, 1500000, 207448));
-		taxTableRecords.add(new TaxTable(previousYearDateObjectValue, new BigDecimal(0.45),1500000, 0, 532041));
+		taxTableRecords.add(new TaxTable(previousYearDateObjectValue, new BigDecimal(0.45),1500001, 0, 532041));
 		
 		//2021
 		
