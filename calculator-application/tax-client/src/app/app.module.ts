@@ -5,16 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import { OutputComponent } from './output/output.component';
-import { CalculatorService } from './service/calculator.service';
 import { FormsModule } from '@angular/forms';
-import { TaxResultsComponent } from './tax-results/tax-results.component';
 import { TaxTableViewComponent } from './tax-table-view/tax-table-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OutputComponent,
-    TaxResultsComponent,
     TaxTableViewComponent
   ],
   imports: [
@@ -23,7 +20,7 @@ import { TaxTableViewComponent } from './tax-table-view/tax-table-view.component
     HttpClientModule,
     FormsModule
   ],
-  providers: [CalculatorService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

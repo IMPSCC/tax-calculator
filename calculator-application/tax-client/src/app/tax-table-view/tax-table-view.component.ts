@@ -8,27 +8,29 @@ import { ActivatedRoute,Router } from '@angular/router';
   styleUrls: ['./tax-table-view.component.scss']
 })
 
+
 export class TaxTableViewComponent implements OnInit {
 
-  taxTablesMap : Map<string,Array<TaxTableResults>> = new Map<string, Array<TaxTableResults>>([["", [new TaxTableResults("","","")]]]);
-  taxTableByYearArray1 : TaxTableResults [] = [];
-  taxTableByYearArray2 : TaxTableResults [] = [];
+  
+  taxTableByYearArray2020 : TaxTableResults [] = [];
+  taxTableByYearArray2021 : TaxTableResults [] = [];
+ 
 
   constructor(private httpReference: HttpClientService,private router: Router,private activatedRouter: ActivatedRoute) { }
 
   ngOnInit(): void {
 
-    this.httpReference.getTaxTableByYear("2021").subscribe(
-     (response : Array<TaxTableResults>) =>{
-       
-       this.taxTableByYearArray1= response;
-
-      }
-    );
     this.httpReference.getTaxTableByYear("2020").subscribe(
      (response : Array<TaxTableResults>) =>{
        
-       this.taxTableByYearArray2= response;
+       this.taxTableByYearArray2020= response;
+
+      }
+    );
+    this.httpReference.getTaxTableByYear("2021").subscribe(
+     (response : Array<TaxTableResults>) =>{
+       
+       this.taxTableByYearArray2021= response;
 
       }
     );

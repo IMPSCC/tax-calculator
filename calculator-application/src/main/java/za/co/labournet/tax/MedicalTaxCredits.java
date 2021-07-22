@@ -1,6 +1,5 @@
 package za.co.labournet.tax;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
